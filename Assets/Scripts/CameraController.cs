@@ -8,25 +8,18 @@ public class CameraMovement : MonoBehaviour
     public float mouseSensitivity = 60f;
     private InputSystem_Actions input;
 
+    public GameObject player;
+    private Vector3 offset;
+
     float xRotation;
     float yRotation;
-
-    private Rigidbody rb;
-
     private float pitch = 0.0f;
     private float yaw = 0.0f;
-    private float limit;
     private Vector2 lookInput;
-    private Vector2 moveInput;
-
-    private float movementX;
-    private float movementY;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
         Cursor.lockState = CursorLockMode.Locked;
 
         input = new InputSystem_Actions();
@@ -35,26 +28,13 @@ public class CameraMovement : MonoBehaviour
         input.Player.Look.started += ctx => lookInput = ctx.ReadValue<Vector2>();
         input.Player.Look.canceled += ctx => lookInput = Vector2.zero;
 
-        input.Player.Move.performed += _ => moveInput = _.ReadValue<Vector2>();
+        offset = transform.position - player.transform.position;
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
         OnMouseMove(lookInput);
-    }
-
-    private void FixedUpdate()
-    {
-        OnMove(moveInput);
-    }
-
-    void OnMove(Vector2 movementVector) 
-    {
-        movementX = movementVector.x;
-        movementY = movementVector.y;
-
-        rb.AddForce(movementX, 0.0f, movementY);
+        transform.position = player.transform.position + offset;
     }
 
     private void OnMouseMove(Vector2 delta)
@@ -63,7 +43,7 @@ public class CameraMovement : MonoBehaviour
         yaw = delta.x * mouseSensitivity * Time.deltaTime;
 
         xRotation -= pitch;
-        xRotation = Mathf.Clamp(xRotation, -44, 44);
+        xRotation = Mathf.Clamp(xRotation, -44f, 44f);
         yRotation += yaw;
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
