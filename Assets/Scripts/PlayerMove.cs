@@ -4,34 +4,50 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float speed = 10f;
+    public float currentSpeed;
+    float walkSpeed = 8;
+    float sprintSpeed = 15;
+    float gravity = -9.81f;
 
     public Transform orientation;
-
-    float movementX;
-    float movementY;
-
-    Rigidbody rb;
+    private Vector2 move;
+    CharacterController character;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); 
+        character = GetComponent<CharacterController>();
+        currentSpeed = walkSpeed;
     }
 
     private void FixedUpdate()
     {
-        transform.rotation = orientation.rotation;
+        character.Move((GetForward() * move.y + GetRight() * move.x) * currentSpeed * Time.deltaTime);
+    }
 
-        Vector3 movement = new Vector3(movementX, 0.0f, movementY);
-        rb.AddRelativeForce(movement * speed);
+    private Vector3 GetForward() 
+    {
+        Vector3 forward = orientation.transform.forward;
+        forward.y = 0;
+
+        return forward.normalized;
+    }
+    private Vector3 GetRight()
+    {
+        Vector3 right = orientation.transform.right;
+        right.y = 0;
+
+        return right.normalized;
     }
 
     void OnMove(InputValue moveValue) 
     {
-        Vector2 moveVector = moveValue.Get<Vector2>();
+        move = moveValue.Get<Vector2>();
+    }
 
-        movementX = moveVector.x;
-        movementY = moveVector.y;
+    void OnSprint(InputValue value) 
+    {
+        if (value.Get<float>() > 0.5f) currentSpeed = sprintSpeed;
+        else currentSpeed = walkSpeed;
     }
 }
