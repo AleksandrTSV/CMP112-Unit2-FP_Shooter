@@ -7,7 +7,6 @@ public class PlayerMove : MonoBehaviour
     public float currentSpeed;
     float walkSpeed = 8;
     float sprintSpeed = 15;
-    float gravity = -9.81f;
 
     public Transform orientation;
     private Vector2 move;
