@@ -43,7 +43,7 @@ public class CameraMovement : MonoBehaviour
         yaw = delta.x * mouseSensitivity * Time.deltaTime;
 
         xRotation -= pitch;
-        xRotation = Mathf.Clamp(xRotation, -60f, 60f);
+        xRotation = Mathf.Clamp(xRotation, -44f, 50f);
         yRotation += yaw;
 
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
