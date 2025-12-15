@@ -48,7 +48,7 @@ public class GunController : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    /*private void OnEnable()
     {
         input.Player.Enable();
 
@@ -62,7 +62,7 @@ public class GunController : MonoBehaviour
         input.Player.Attack.canceled -= ctx => StopFire();
 
         input.Player.Disable();
-    }
+    }*/
 
     void Update()
     {
@@ -70,6 +70,19 @@ public class GunController : MonoBehaviour
         //Debug.Log($"Heat: {heat}");
     }
 
+    void OnAttack(InputValue value) 
+    {
+        if (value.Get<float>() > 0.5f)
+        {
+            StartFire();
+        }
+
+        else 
+        {
+            StopFire();
+        }
+    }
+    
     int onOff = 0;
     void StartFire() 
     {
