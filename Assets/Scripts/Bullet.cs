@@ -22,8 +22,9 @@ public class Bullet : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Disable();
+        if (other.CompareTag("Enemy")) Disable();
+        else if (other.CompareTag("Wall") || other.CompareTag("Ground")) Disable();
     }
 }
