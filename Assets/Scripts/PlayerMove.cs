@@ -12,7 +12,9 @@ public class PlayerMove : MonoBehaviour
     private Vector2 move;
     CharacterController character;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public int health = 3;
+    public int goal = 20;
+
     void Start()
     {
         character = GetComponent<CharacterController>();
@@ -22,6 +24,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         character.Move((GetForward() * move.y + GetRight() * move.x) * currentSpeed * Time.deltaTime);
+        Debug.Log($"Heath: {health}");
     }
 
     private Vector3 GetForward() 
@@ -48,5 +51,17 @@ public class PlayerMove : MonoBehaviour
     {
         if (value.Get<float>() > 0.5f) currentSpeed = sprintSpeed;
         else currentSpeed = walkSpeed;
+    }
+
+    public void DeceraseGoal() 
+    {
+        goal -= 1;
+        goal = Mathf.Max(goal, 0);
+    }
+
+    public void DeceraseHealth()
+    {
+        health -= 1;
+        health = Mathf.Max(health, 0);
     }
 }
