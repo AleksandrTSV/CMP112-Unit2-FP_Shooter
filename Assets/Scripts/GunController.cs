@@ -33,6 +33,7 @@ public class GunController : MonoBehaviour
 
     InputSystem_Actions input;
     bool isFiring = false;
+    private float nextFireTime = 0.0f;
 
     float heat;
 
@@ -65,9 +66,27 @@ public class GunController : MonoBehaviour
     }*/
 
     void Update()
-    {
+    {    
         heat = Mathf.MoveTowards(heat, 0, coolSpeed * Time.deltaTime);
         //Debug.Log($"Heat: {heat}");
+
+        if (isFiring && Time.time > nextFireTime)
+        {
+            //---------------------
+            heat += heatPerShot;
+            //---------------------
+
+            Bullet bullet = pool[poolIndex];
+            poolIndex = (poolIndex + 1) % poolSize;
+
+            bullet.transform.position = creator.position;
+            bullet.transform.parent = null;
+
+            Vector3 direction = creator.forward;
+
+            bullet.gameObject.SetActive(true);
+            bullet.Fire(direction.normalized * bulletSpeed);
+        }
     }
 
     void OnAttack(InputValue value) 
@@ -94,23 +113,9 @@ public class GunController : MonoBehaviour
             source.loop = true;
             source.Play();
             onOff = 1;
-         }
+        }
 
-
-        //---------------------
-        heat += heatPerShot;
-        //---------------------
-
-        Bullet bullet = pool[poolIndex];
-        poolIndex = (poolIndex + 1) % poolSize;
-
-        bullet.transform.position = creator.position;
-        bullet.transform.parent = null;
-
-        Vector3 direction = creator.forward;
-
-        bullet.gameObject.SetActive(true);
-        bullet.Fire(direction.normalized * bulletSpeed);
+        isFiring = true;
     }
     void StopFire()
     {
@@ -121,6 +126,8 @@ public class GunController : MonoBehaviour
             source.PlayOneShot(fireEnd);
             onOff = 0;
         }
+
+        isFiring = false;
     }
 }
 
