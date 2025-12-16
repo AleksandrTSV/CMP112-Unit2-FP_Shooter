@@ -283,7 +283,7 @@ MonoBehaviour:
   source: {fileID: 136489131}
   bulletPrefab: {fileID: 4111007256794166529, guid: 0191ac5473a68854db5f9d547881c4ce, type: 3}
   poolSize: 30
-  bulletSpeed: 40
+  bulletSpeed: 30
   fireRate: 0.2
   heatPerShot: 1
   maxHeat: 20
@@ -918,6 +918,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSpeed: 0
   orientation: {fileID: 985438758}
+  health: 3
+  goal: 20
 --- !u!143 &363887361
 CharacterController:
   m_ObjectHideFlags: 0
