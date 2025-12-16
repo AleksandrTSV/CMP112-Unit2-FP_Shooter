@@ -6,6 +6,7 @@ using System.Collections;
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] AudioClip[] sounds;
+    [SerializeField] AudioClip[] deathSound;
 
     // Reference to the player's transform.
     public Transform target;
@@ -58,7 +59,7 @@ public class EnemyMovement : MonoBehaviour
         source.Play();
     }
 
-    private IEnumerator RepeatSound()
+    IEnumerator RepeatSound()
     {
         yield return new WaitForSeconds(5f);
         PlayRandomSound();
@@ -67,6 +68,11 @@ public class EnemyMovement : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
+            gameObject.SetActive(false);
+        }
+
+        else if (other.CompareTag("Bullet"))
         {
             gameObject.SetActive(false);
         }
