@@ -33,7 +33,7 @@ public class GunController : MonoBehaviour
 
     InputSystem_Actions input;
     bool isFiring = false;
-    private float nextFireTime = 0.0f;
+    private float nextFireTime = 0.2f;
 
     float heat;
 
@@ -86,6 +86,8 @@ public class GunController : MonoBehaviour
 
             bullet.gameObject.SetActive(true);
             bullet.Fire(direction.normalized * bulletSpeed);
+
+            nextFireTime = Time.time + fireRate;
         }
     }
 
