@@ -19,12 +19,12 @@ public class PlayerMove : MonoBehaviour
     {
         character = GetComponent<CharacterController>();
         currentSpeed = walkSpeed;
+        Time.timeScale = 1;
     }
 
     private void FixedUpdate()
     {
         character.Move((GetForward() * move.y + GetRight() * move.x) * currentSpeed * Time.deltaTime);
-        Debug.Log($"Heath: {health}");
     }
 
     private Vector3 GetForward() 

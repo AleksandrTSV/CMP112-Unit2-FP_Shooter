@@ -19,10 +19,11 @@ public class GunController : MonoBehaviour
     [Header("Fire")]
     [SerializeField] float fireRate = 0.2f;
 
-    [Header("Overheat")]
+    /*[Header("Overheat")]
     [SerializeField] float heatPerShot = 1f;
-    [SerializeField] float maxHeat = 20f;
+    [SerializeField] float maxHeat = 20f;       //For the future development
     [SerializeField] float coolSpeed = 5f;
+    */
 
     [Header("Audio")]
     [SerializeField] AudioClip fireLoop;
@@ -31,16 +32,12 @@ public class GunController : MonoBehaviour
     Bullet[] pool;
     int poolIndex;
 
-    InputSystem_Actions input;
     bool isFiring = false;
     private float nextFireTime = 0.2f;
 
-    float heat;
 
     private void Awake()
-    {
-        input = new InputSystem_Actions();
-
+    { 
         pool = new Bullet[poolSize];
         for (int i = 0; i < poolSize; i++)
         {
@@ -49,33 +46,10 @@ public class GunController : MonoBehaviour
         }
     }
 
-    /*private void OnEnable()
-    {
-        input.Player.Enable();
-
-        input.Player.Attack.performed += ctx => StartFire();
-        input.Player.Attack.canceled += ctx => StopFire();
-    }
-
-    private void OnDisable()
-    {
-        input.Player.Attack.performed -= ctx => StartFire();
-        input.Player.Attack.canceled -= ctx => StopFire();
-
-        input.Player.Disable();
-    }*/
-
     void Update()
     {    
-        heat = Mathf.MoveTowards(heat, 0, coolSpeed * Time.deltaTime);
-        //Debug.Log($"Heat: {heat}");
-
         if (isFiring && Time.time > nextFireTime)
         {
-            //---------------------
-            heat += heatPerShot;
-            //---------------------
-
             Bullet bullet = pool[poolIndex];
             poolIndex = (poolIndex + 1) % poolSize;
 
