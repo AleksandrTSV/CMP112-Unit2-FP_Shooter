@@ -12,29 +12,30 @@ public class PlayerMove : MonoBehaviour
     private Vector2 move;
     CharacterController character;
 
-    public int health = 3;
-    public int goal = 20;
+    public int health = 3;      //For future development
+    public int goal = 20;       //
 
     void Start()
     {
         character = GetComponent<CharacterController>();
         currentSpeed = walkSpeed;
-        Time.timeScale = 1;
+        Time.timeScale = 1; //To ensure scene will load properly and will not be frozened
     }
 
     private void FixedUpdate()
     {
-        character.Move((GetForward() * move.y + GetRight() * move.x) * currentSpeed * Time.deltaTime);
+        character.Move((GetForward() * move.y + GetRight() * move.x) * currentSpeed * Time.deltaTime); //Looks which direction you're looking at and 
+                                                                                                       //and moves depending on that direction
     }
 
-    private Vector3 GetForward() 
+    private Vector3 GetForward() //Gives X direction
     {
         Vector3 forward = orientation.transform.forward;
         forward.y = 0;
 
         return forward.normalized;
     }
-    private Vector3 GetRight()
+    private Vector3 GetRight() //Gives Y direction
     {
         Vector3 right = orientation.transform.right;
         right.y = 0;
@@ -42,24 +43,24 @@ public class PlayerMove : MonoBehaviour
         return right.normalized;
     }
 
-    void OnMove(InputValue moveValue) 
+    void OnMove(InputValue moveValue) // Reads WASD
     {
         move = moveValue.Get<Vector2>();
     }
 
-    void OnSprint(InputValue value) 
+    void OnSprint(InputValue value) //Sprint function
     {
         if (value.Get<float>() > 0.5f) currentSpeed = sprintSpeed;
         else currentSpeed = walkSpeed;
     }
 
-    public void DeceraseGoal() 
+    public void DeceraseGoal() //For future development
     {
         goal -= 1;
         goal = Mathf.Max(goal, 0);
     }
 
-    public void DeceraseHealth()
+    public void DeceraseHealth() //For future development
     {
         health -= 1;
         health = Mathf.Max(health, 0);

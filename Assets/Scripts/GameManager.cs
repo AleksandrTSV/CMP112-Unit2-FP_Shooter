@@ -19,17 +19,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // FOR FUTURE DEVELOPMENT
         if (goalText.text == "You need to win: 0" || healthText.text == "Health: 0")
         {
             gameOver.gameObject.SetActive(true);
             Time.timeScale = 0;
         }
+        //--------------------------------
 
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        if (Input.GetKeyDown(KeyCode.Escape)) //Opens PauseMenu
         {
             gameOver.gameObject.SetActive(true);
-            Time.timeScale = 0;
-            Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0; //Freeze the game
+            Cursor.lockState = CursorLockMode.None; //Gives access to our mouse
         }
     }
 }

@@ -10,11 +10,11 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void Fire(Vector3 velocity) 
+    public void Fire(Vector3 velocity) // Gives live to our bullet
     {
         rb.linearVelocity = velocity;
-        CancelInvoke();
-        Invoke(nameof(Disable), lifeTime);
+        CancelInvoke(); // In case if we are out of available bullets in our pool 
+        Invoke(nameof(Disable), lifeTime); // After 3 seconds in the air bullet disappers
     }
 
     private void Disable()

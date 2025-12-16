@@ -10,7 +10,7 @@ public class EnemyMovement : MonoBehaviour
 
     // Reference to the player's transform.
     public Transform target;
-    private NavMeshAgent navMeshAgent;
+    private NavMeshAgent navMeshAgent; //Component for searching and approaching to the player 
 
     private AudioSource source;
     private Coroutine soundRoutine;
@@ -24,18 +24,18 @@ public class EnemyMovement : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
-    public void SetTarget(Transform newTarget) 
+    public void SetTarget(Transform newTarget) //To set the target that agent will chase
     {
         target = newTarget;
     }
 
-    private void OnEnable()
+    private void OnEnable() //When enemy appears
     {
-        PlayRandomSound();
-        soundRoutine = StartCoroutine(RepeatSound());
+        PlayRandomSound(); //Play one of the three SFX
+        soundRoutine = StartCoroutine(RepeatSound()); //will do it again after certain amount of time
     }
 
-    private void OnDisable()
+    private void OnDisable() //Stops the routine after enemy's disappearence (secures multiple simultaneous uses of SFX) 
     {
         if (soundRoutine != null)
             StopCoroutine(soundRoutine);
@@ -51,7 +51,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    void PlayRandomSound() 
+    void PlayRandomSound() //Play one of the three SFX
     {
         if (sounds.Length == 0) return;
 
@@ -59,7 +59,7 @@ public class EnemyMovement : MonoBehaviour
         source.Play();
     }
 
-    IEnumerator RepeatSound()
+    IEnumerator RepeatSound() //will do it again after certain amount of time2
     {
         yield return new WaitForSeconds(5f);
         PlayRandomSound();
@@ -67,12 +67,12 @@ public class EnemyMovement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player")) // if hits the player, enemy disapears
         {
             gameObject.SetActive(false);
         }
 
-        else if (other.CompareTag("Bullet"))
+        else if (other.CompareTag("Bullet")) // if hits a bullet, enemy disapears
         {
             gameObject.SetActive(false);
         }

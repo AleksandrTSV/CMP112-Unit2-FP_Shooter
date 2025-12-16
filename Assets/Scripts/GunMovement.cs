@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GunMovement : MonoBehaviour
+public class GunMovement : MonoBehaviour //!!! TO ENSURE GOOD LOOKING POSITION FOR THE GUN !!!
 {
     public Transform orientation;
     Vector3 offset;

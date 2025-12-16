@@ -28,11 +28,11 @@ public class GunController : MonoBehaviour
     [SerializeField] AudioClip fireLoop;
     [SerializeField] AudioClip fireEnd;
 
-    Bullet[] pool;
+    Bullet[] pool; //array of bullets we can use(performance purposes)
     int poolIndex;
 
     bool isFiring = false;
-    private float nextFireTime = 0.2f;
+    private float nextFireTime = 0.2f; //Fire rate
 
 
     private void Awake()
@@ -40,17 +40,17 @@ public class GunController : MonoBehaviour
         pool = new Bullet[poolSize];
         for (int i = 0; i < poolSize; i++)
         {
-            pool[i] = Instantiate(bulletPrefab);
-            pool[i].gameObject.SetActive(false);
+            pool[i] = Instantiate(bulletPrefab);  //Create 30 instances of bullets 
+            pool[i].gameObject.SetActive(false);  // and we will only ue these ones(instead of using Instantiate and then Destroy)
         }
     }
 
     void Update()
     {    
-        if (isFiring && Time.time > nextFireTime)
+        if (isFiring && Time.time > nextFireTime) //Checks if you are holding fire button
         {
             Bullet bullet = pool[poolIndex];
-            poolIndex = (poolIndex + 1) % poolSize;
+            poolIndex = (poolIndex + 1) % poolSize; //so we dont have OutOfBoundsException
 
             bullet.transform.position = creator.position;
             bullet.transform.parent = null;
@@ -58,13 +58,13 @@ public class GunController : MonoBehaviour
             Vector3 direction = creator.forward;
 
             bullet.gameObject.SetActive(true);
-            bullet.Fire(direction.normalized * bulletSpeed);
+            bullet.Fire(direction.normalized * bulletSpeed); //gives the direction to the bullet
 
             nextFireTime = Time.time + fireRate;
         }
     }
 
-    void OnAttack(InputValue value) 
+    void OnAttack(InputValue value) //Check if fire button is pressed 
     {
         if (value.Get<float>() > 0.5f)
         {
@@ -77,10 +77,10 @@ public class GunController : MonoBehaviour
         }
     }
     
-    int onOff = 0;
+    int onOff = 0; //to ensure that our SFX will activate ones
     void StartFire() 
     {
-        anim.SetBool("Shoot", true);
+        anim.SetBool("Shoot", true); //Activate shooting animation
         //---------------------
         if (onOff == 0)
         {
