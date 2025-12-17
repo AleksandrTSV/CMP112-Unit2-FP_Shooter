@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     public void Fire(Vector3 velocity) // Gives live to our bullet
     {
         rb.linearVelocity = velocity;
-        CancelInvoke(); // In case if we are out of available bullets in our pool 
+        CancelInvoke(); // Ensure that the bullet will not disappear sooner than we need 
         Invoke(nameof(Disable), lifeTime); // After 3 seconds in the air bullet disappers
     }
 
