@@ -34,6 +34,7 @@ public class GunController : MonoBehaviour
     bool isFiring = false;
     private float nextFireTime = 0.2f; //Fire rate
 
+    [SerializeField] PlayerManager gameInfo;
 
     private void Awake()
     { 
@@ -66,7 +67,7 @@ public class GunController : MonoBehaviour
 
     void OnAttack(InputValue value) //Check if fire button is pressed 
     {
-        if (value.Get<float>() > 0.5f)
+        if (value.Get<float>() > 0.5f && !gameInfo.GetIsPaused())
         {
             StartFire();
         }
@@ -77,29 +78,29 @@ public class GunController : MonoBehaviour
         }
     }
     
-    int onOff = 0; //to ensure that our SFX will activate ones
+    bool isAudioPlaying = false; //to ensure that our SFX will activate ones
     void StartFire() 
     {
         anim.SetBool("Shoot", true); //Activate shooting animation
         //---------------------
-        if (onOff == 0)
+        if (!isAudioPlaying)
         {
             source.clip = fireLoop;
             source.loop = true;
             source.Play();
-            onOff = 1;
+            isAudioPlaying = true;
         }
 
         isFiring = true;
     }
     void StopFire()
     {
-        if (onOff == 1)
+        if (isAudioPlaying)
         {
             anim.SetBool("Shoot", false);
             source.Stop();
             source.PlayOneShot(fireEnd);
-            onOff = 0;
+            isAudioPlaying = false;
         }
 
         isFiring = false;

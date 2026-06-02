@@ -150,3 +150,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 3
+  explosionPrefab: {fileID: 2155430150218988963, guid: 2a7ab5fd062ee5a42973398d47b1ce2b, type: 3}
+  explosionPoolSize: 5
