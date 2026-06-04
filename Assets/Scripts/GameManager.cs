@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System.Collections;
 using TMPro;
-using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,11 +17,6 @@ public class GameManager : MonoBehaviour
     // ── Player ───────────────────────────────────────────────────────────────
     //[Header("Camera")]
     //[SerializeField] private GameObject;
-
-    // ── HUD ──────────────────────────────────────────────────────────────────
-    [Header("HUD Text")]
-    [SerializeField] private TextMeshProUGUI goalText;
-    [SerializeField] private TextMeshProUGUI healthText;
 
     // ── UI Panels ────────────────────────────────────────────────────────────
     [Header("UI Panels")]
@@ -39,21 +35,37 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool gameEnded = false;
 
     // ─────────────────────────────────────────────────────────────────────────
+    [Header("UI Document")]
+    [SerializeField] UIDocument uiDocument;
+    VisualElement healthInfoBox;
+    VisualElement goalInfo;
+    VisualElement goalFill;
+    Label goalLabel;
+    int theGoal;
+    [HideInInspector]public VisualElement crosshair;
 
     private void Awake()
     {
         // Singleton setup
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+
+        healthInfoBox = uiDocument.rootVisualElement.Q<VisualElement>("HealthInfo");
+        goalInfo = uiDocument.rootVisualElement.Q<VisualElement>("goalInfo");
+        goalFill = uiDocument.rootVisualElement.Q<VisualElement>("goalFill");
+        goalLabel = uiDocument.rootVisualElement.Q<Label>("goalLabel");
+
+        goalLabel.text = $"Enemies left: {playerStats.goal}";
+
+        theGoal = playerStats.goal;
+        goalFill.style.width = Length.Percent(100f);
+
+        crosshair = uiDocument.rootVisualElement.Q<VisualElement>("Crosshair");
     }
 
     private void Start()
     {
         Time.timeScale = 1;
-
-        // Show start values for HP and Goal
-        RefreshGoalText();
-        RefreshHealthText();
     }
 
     private void Update()
@@ -67,7 +79,7 @@ public class GameManager : MonoBehaviour
         if (gameEnded) return;
 
         playerStats.DecreaseGoal();
-        RefreshGoalText();
+        UpdateUIGoal();
 
         if (playerStats.goal <= 0)
             TriggerWin();
@@ -80,21 +92,38 @@ public class GameManager : MonoBehaviour
 
         playerStats.DecreaseHealth();
         musicSource.PlayOneShot(hitSound);
-        RefreshHealthText();
+        UpdateUIHearts();
 
         if (playerStats.health <= 0)
             TriggerLose();
     }
 
     // ── HUD ───────────────────────────────────────────────────────────────────
-    private void RefreshGoalText()
+    private void UpdateUIGoal()
     {
-        goalText.text = $"Enemies left: {playerStats.goal}";
+        if (gameEnded)
+        {
+            goalInfo.style.display = DisplayStyle.None;
+        }
+
+        float progress = (float)playerStats.goal / theGoal;
+        goalFill.style.width = Length.Percent(progress * 100f);
+        goalLabel.text = $"Enemies left: {playerStats.goal}";
     }
 
-    private void RefreshHealthText()
+    private void UpdateUIHearts()
     {
-        healthText.text = $"Health: {playerStats.health}";
+        if (gameEnded)
+        {
+            healthInfoBox.style.display = DisplayStyle.None;
+        }
+
+        for (int i = 0; i < healthInfoBox.childCount; i++)
+        {
+            VisualElement heartImage = healthInfoBox[i];
+            bool visible = i < playerStats.health;
+            heartImage.visible = visible;
+        }
     }
 
     // ── Game Over ────────────────────────────────────────────────────────────
@@ -133,7 +162,10 @@ public class GameManager : MonoBehaviour
 
         // Show panel and freeze the game
         panel.SetActive(true);
+        crosshair.style.display = DisplayStyle.None;
+        UpdateUIHearts();
+        UpdateUIGoal();
         Time.timeScale = 0;
-        Cursor.lockState = CursorLockMode.None;
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
 }

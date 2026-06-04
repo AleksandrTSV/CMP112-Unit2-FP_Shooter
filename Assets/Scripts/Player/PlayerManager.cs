@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
     private bool is_Paused = false;
 
-    [SerializeField] GameManager gameInfo;
+    //[SerializeField] GameManager gameInfo;
     private void OnTriggerEnter(Collider hit)
     {
         if (hit.CompareTag("Enemy")) 
@@ -26,7 +27,7 @@ public class PlayerManager : MonoBehaviour
         {
             UnpauseGame();
         }
-        else if (!is_Paused && !gameInfo.gameEnded)
+        else if (!is_Paused && !GameManager.Instance.gameEnded)
         {
             PauseGame();
         }
@@ -35,16 +36,18 @@ public class PlayerManager : MonoBehaviour
     void PauseGame()
     {
         pauseMenu.SetActive(true);
+        GameManager.Instance.crosshair.style.display = DisplayStyle.None;
         Time.timeScale = 0;
-        Cursor.lockState = CursorLockMode.None;
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
         is_Paused = true;
     }
 
     public void UnpauseGame()
     {
         pauseMenu.SetActive(false);
+        GameManager.Instance.crosshair.style.display = DisplayStyle.Flex;
         Time.timeScale = 1;
-        Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         is_Paused = false;
     }
 }
