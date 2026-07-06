@@ -21,10 +21,13 @@ public class CameraMovement : MonoBehaviour
     // Shake coroutine writes here; LateUpdate adds it on top of base position
     [HideInInspector] public Vector3 shakeOffset = Vector3.zero;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private const string SENSITIVITY_KEY = "MouseSensitivity";
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; //To hide cursor and stay in the center of the screen
+
+        mouseSensitivity = PlayerPrefs.GetFloat(SENSITIVITY_KEY, mouseSensitivity);
 
         input = new InputSystem_Actions();
         input.Player.Enable();

@@ -55,9 +55,9 @@ public class PauseMenu : MonoBehaviour
         musicSlider.onValueChanged.AddListener(SetMusicVolume);
         sfxSlider.onValueChanged.AddListener(SetSFXVolume);
 
-        SetMasterVolume(1f);
-        SetMusicVolume(1f);
-        SetSFXVolume(1f);
+        SetMasterVolume(master);
+        SetMusicVolume(music);
+        SetSFXVolume(sfx);
     }
 
     public void SetMasterVolume(float value)

@@ -22,8 +22,8 @@ public class EnemySpawn : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(nameof(SpawnEnemy), 1f, 3f); //Invoke SpawnEnemy for the first time after 1 sec
-                                                     // next ones each 3 seconds
+        InvokeRepeating(nameof(SpawnEnemy), 1f, 2f); //Invoke SpawnEnemy for the first time after 1 sec
+                                                     // next ones each 2 seconds
     }
 
     public void SpawnEnemy()

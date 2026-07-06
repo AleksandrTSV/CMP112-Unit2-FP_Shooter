@@ -4,11 +4,15 @@
         <ui:VisualElement name="Heart2" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Materials/heart.png?fileID=2800000&amp;guid=5fabdd859cd1c084ea4b3a9e30848686&amp;type=3#heart&quot;); -unity-background-scale-mode: scale-to-fit;" />
         <ui:VisualElement name="Heart3" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Materials/heart.png?fileID=2800000&amp;guid=5fabdd859cd1c084ea4b3a9e30848686&amp;type=3#heart&quot;); -unity-background-scale-mode: scale-to-fit;" />
     </ui:VisualElement>
-    <ui:VisualElement name="goalInfo" style="flex-grow: 1; position: absolute; top: 25px; right: 26px; width: 300px; height: 28px; background-color: rgb(201, 8, 0);">
-        <ui:VisualElement name="goalFill" style="flex-grow: 1; background-color: rgb(0, 217, 61); position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 0%;" />
-        <ui:Label text="Enemies left:" name="goalLabel" style="position: absolute; left: 25px; font-size: 16px; -unity-font-definition: url(&quot;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#LegacyRuntime&quot;);" />
+    <ui:VisualElement name="goalInfo" style="flex-grow: 1; position: absolute; top: 25px; right: 26px; width: 300px; height: 28px; background-color: rgb(201, 8, 0); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px;">
+        <ui:VisualElement name="goalFill" style="flex-grow: 1; background-color: rgb(0, 217, 61); position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 0%; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px;" />
+        <ui:Label text="Enemies left:" name="goalLabel" style="position: absolute; left: 25px; font-size: 16px; -unity-font-definition: url(&quot;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#LegacyRuntime&quot;); -unity-font-style: bold; -unity-text-align: middle-left; height: 19px;" />
     </ui:VisualElement>
     <ui:VisualElement name="Crosshair" style="flex-grow: 1; justify-content: center; align-items: center; margin-top: 40px;">
         <ui:VisualElement name="crosshairImage" style="flex-grow: 1; align-self: center; position: absolute; background-image: url(&quot;project://database/Assets/Materials/Crosshair.png?fileID=2800000&amp;guid=99c0e91ec53b4e5459cc8dd99f5f3ac0&amp;type=3#Crosshair&quot;); width: 32px; height: 32px; top: auto;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="HeatBarContainer" style="flex-grow: 1; position: absolute; bottom: 25px; left: 25px; width: 280px; background-color: rgba(30, 30, 30, 0.71); height: 22px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; overflow: hidden;">
+        <ui:VisualElement name="heatFill" style="flex-grow: 1; position: absolute; width: 0%; top: 0; left: 0; bottom: 0; background-color: rgb(26, 217, 64); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px;" />
+        <ui:Label text="Heat: " name="heatLabel" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; -unity-text-align: middle-center; color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 13px;" />
     </ui:VisualElement>
 </ui:UXML>

@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     Label goalLabel;
     int theGoal;
     [HideInInspector]public VisualElement crosshair;
+    VisualElement heatBar;
 
     private void Awake()
     {
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
         goalFill.style.width = Length.Percent(100f);
 
         crosshair = uiDocument.rootVisualElement.Q<VisualElement>("Crosshair");
+        heatBar = uiDocument.rootVisualElement.Q<VisualElement>("HeatBarContainer");
     }
 
     private void Start()
@@ -163,6 +165,7 @@ public class GameManager : MonoBehaviour
         // Show panel and freeze the game
         panel.SetActive(true);
         crosshair.style.display = DisplayStyle.None;
+        heatBar.style.display = DisplayStyle.None;
         UpdateUIHearts();
         UpdateUIGoal();
         Time.timeScale = 0;
